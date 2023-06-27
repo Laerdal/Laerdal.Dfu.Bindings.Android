@@ -26,11 +26,13 @@
         <ReferenceJar Include="Jars\gson.jar" />
     </ItemGroup> -->
     <ItemGroup>
-      <AndroidLibrary Remove="Jars\gson.jar" />
-      <EmbeddedReferenceJar Include="Jars\gson.jar" />
+        <AndroidLibrary Update="Jars\dfu.aar" Bind="true" />
+        
+        <AndroidLibrary Remove="Jars\gson.jar" />
+        <ReferenceJar Include="Jars\gson.jar" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" />
+      <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
     </ItemGroup>
     <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="BeforeCompile">
         <DownloadFile DestinationFileName="dfu.aar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar" />
