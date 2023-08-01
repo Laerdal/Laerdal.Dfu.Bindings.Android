@@ -1,38 +1,40 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+
     <PropertyGroup>
         <Laerdal_Package_Name>Laerdal.Dfu.Bindings.Android</Laerdal_Package_Name>
         <Laerdal_Package_Tags>Ble;Tools;Xamarin;Dfu;Bluetooth;Nordic;Semiconductor</Laerdal_Package_Tags>
         <Laerdal_Package_Copyright>Laerdal Medical, Francois Raminosona</Laerdal_Package_Copyright>
         <Laerdal_Package_Description>Xamarin wrapper around Nordic.Dfu for Android.</Laerdal_Package_Description>
-    
+    </PropertyGroup>
+
+    <PropertyGroup>
         <Nordic_Package_Version>2.3.0</Nordic_Package_Version>
         <Gson_Package_Version>2.10</Gson_Package_Version>
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net6.0-android</TargetFramework>
+        <TargetFramework>monoandroid12.0</TargetFramework>
         
-        <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
         <!-- warning CS0618: 'IntentService' is obsolete: 'This class is obsoleted in this android platform' -->
         <!-- warning CS0618: 'IDfuSettingsConstants' is obsolete: 'This class is obsoleted in this android platform' -->
         <NoWarn>CS0618</NoWarn>
+        <IsBindingProject>true</IsBindingProject>
+        <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+        <AndroidClassParser>class-parse</AndroidClassParser>
+        <AndroidCodegenTarget>XAJavaInterop1</AndroidCodegenTarget>
+        <DebugType>pdbonly</DebugType>
+        <PackageOutputPath Condition="'$(PackageOutputPath)' == '' AND '$(TF_BUILD)' == '' ">$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), `Output/`))</PackageOutputPath>
+        <PackageOutputPath Condition="'$(PackageOutputPath)' == '' AND '$(TF_BUILD)' != '' ">$(BUILD_ARTIFACTSTAGINGDIRECTORY)</PackageOutputPath>
     </PropertyGroup>
 
     <Import Project="Laerdal.targets" />
 
-    <!-- 
     <ItemGroup>
+        <Reference Include="Mono.Android" />
+        <EmbeddedReferenceJar Include="Jars\gson.jar" />
         <LibraryProjectZip Include="Jars\dfu.aar" />
-        <ReferenceJar Include="Jars\gson.jar" />
-    </ItemGroup> -->
-    <ItemGroup>
-        <AndroidLibrary Update="Jars\dfu.aar" Bind="true" />
-        
-        <AndroidLibrary Remove="Jars\gson.jar" />
-        <ReferenceJar Include="Jars\gson.jar" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
+        <TransformFile Include="Transforms\*.xml" />
+        <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
     </ItemGroup>
     <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="BeforeCompile">
         <DownloadFile DestinationFileName="dfu.aar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar" />

@@ -23,7 +23,7 @@ git clone https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android.git
 ### 2) Build
 
 ```bash
-dotnet build
+msbuild Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj
 ```
 
 You'll find the nuget in `Output/`
