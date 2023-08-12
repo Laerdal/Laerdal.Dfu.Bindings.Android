@@ -21,6 +21,6 @@
         </PropertyGroup>
         
         <!-- RUN -->
-        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Build"/>
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Restore;Build"/>
     </Target>
 </Project>

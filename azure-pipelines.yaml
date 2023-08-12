@@ -13,15 +13,11 @@ steps:
     displayName: 'Use NuGet'
     inputs:
       checkLatest: true
-  - task: NuGetCommand@2
-    displayName: nuget restore
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build
     inputs:
-      command: 'restore'
-      restoreSolution: 'Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj'
-  - task: MSBuild@1
-    displayName: MSBuild
-    inputs:
-      solution: Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj
+      projects: $(Build.SourcesDirectory)/Laerdal.Build.proj
       configuration: Release
 
   - publish: $(Build.ArtifactStagingDirectory)
