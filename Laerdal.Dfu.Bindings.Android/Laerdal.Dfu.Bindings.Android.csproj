@@ -12,7 +12,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net6.0-android</TargetFramework>
+        <TargetFrameworks>net6.0-android;net7.0-android</TargetFrameworks>
         
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
         <!-- warning CS0618: 'IntentService' is obsolete: 'This class is obsoleted in this android platform' -->
