@@ -15,6 +15,11 @@ steps:
       checkLatest: true
 
   - task: DotNetCoreCLI@2
+    inputs:
+      command: 'custom'
+      custom: 'workload install android'
+      
+  - task: DotNetCoreCLI@2
     displayName: dotnet build
     inputs:
       projects: $(Build.SourcesDirectory)/Laerdal.Build.proj
