@@ -36,7 +36,7 @@
         <TransformFile Include="Transforms\*.xml" />
         <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
     </ItemGroup>
-    <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="BeforeCompile">
+    <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="Restore">
         <DownloadFile DestinationFileName="dfu.aar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar" />
         <DownloadFile DestinationFileName="gson.jar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar" />
     </Target>
