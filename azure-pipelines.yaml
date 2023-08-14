@@ -27,7 +27,6 @@ steps:
     displayName: dotnet build
     inputs:
       projects: $(Build.SourcesDirectory)/Laerdal.Build.proj
-      arguments: '--verbosity detailed'
       configuration: Release
 
   - publish: $(Build.ArtifactStagingDirectory)
