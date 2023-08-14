@@ -10,6 +10,7 @@ pool:
 steps:
   - checkout: self
     clean: true
+    persistCredentials: true
   - task: NuGetToolInstaller@1
     displayName: 'Use NuGet'
     inputs:
