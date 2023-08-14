@@ -22,11 +22,12 @@ steps:
       command: custom
       custom: 'workload'
       arguments: 'install android'
-      
+
   - task: DotNetCoreCLI@2
     displayName: dotnet build
     inputs:
       projects: $(Build.SourcesDirectory)/Laerdal.Build.proj
+      arguments: '--verbosity detailed'
       configuration: Release
 
   - publish: $(Build.ArtifactStagingDirectory)
