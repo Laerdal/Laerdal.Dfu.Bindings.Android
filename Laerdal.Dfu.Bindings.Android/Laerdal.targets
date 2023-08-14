@@ -69,7 +69,7 @@
         <PackageLicencePath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), `../LICENSE`))</PackageLicencePath>
         <PackageReadMePath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory), `../README.md`))</PackageReadMePath>
         <PackageIcon Condition="Exists('$(PackageIconPath)')">icon.png</PackageIcon>
-        <PackageLicense Condition="Exists('$(PackageLicencePath)')">LICENSE</PackageLicense>
+        <PackageLicenseFile Condition="Exists('$(PackageLicencePath)')">LICENSE</PackageLicenseFile>
         <!-- https://github.com/NuGet/Home/issues/10791 -->
         <!-- <PackageReadmeFile Condition="Exists('$(PackageReadMePath)')">README.md</PackageReadmeFile> -->
     </PropertyGroup>
