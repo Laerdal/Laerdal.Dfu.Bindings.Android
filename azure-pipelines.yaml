@@ -17,11 +17,11 @@ steps:
       checkLatest: true
 
   - task: DotNetCoreCLI@2
-    displayName: dotnet workload install android
+    displayName: dotnet workload restore
     inputs:
       command: custom
       custom: 'workload'
-      arguments: 'install android'
+      arguments: 'restore Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj'
 
   - task: DotNetCoreCLI@2
     displayName: dotnet build
