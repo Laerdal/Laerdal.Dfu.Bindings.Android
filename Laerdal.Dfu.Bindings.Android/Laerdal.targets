@@ -6,7 +6,7 @@
         <Optimize>false</Optimize>
         <LangVersion>latest</LangVersion>
         <NeutralLanguage>en</NeutralLanguage>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <OutputPath>bin\</OutputPath>
         <ErrorReport>prompt</ErrorReport>
