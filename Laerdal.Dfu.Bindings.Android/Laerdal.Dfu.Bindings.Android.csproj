@@ -16,7 +16,6 @@
         <IsBindingProject>true</IsBindingProject>
 
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-        <Unsafe>true</Unsafe>
     </PropertyGroup>
 
     <!-- ==================== VERSION ==================== -->

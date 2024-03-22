@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-
     <!-- ==================== DEFAULT CONFIGURATION ==================== -->
     <PropertyGroup>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
         <Optimize>false</Optimize>
+        <LangVersion>latest</LangVersion>
+        <NeutralLanguage>en</NeutralLanguage>
         <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\</OutputPath>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <OutputType>Library</OutputType>
+
+        <!-- see : https://cezarypiatek.github.io/post/managing-output-in-sdk-projects/ -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <!-- MSB9004 : ManifestResourceWithNoCulture item type is deprecated. -->
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB9004</MSBuildWarningsAsMessages>
+        <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+
+
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
         <IncludeSource>True</IncludeSource>
         <IncludeSymbols>True</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
