@@ -18,4 +18,12 @@
 
     <!-- warning CS0114: 'IFileTypeInvoker.Equals(Object)' hides inherited member 'Object.Equals(Object?)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword. -->
     <remove-node path="/api/package[@name='no.nordicsemi.android.dfu']/interface[@name='FileType']"/>
+
+    <!-- warning CS0618: 'IDfuSettingsConstants' is obsolete: 'This class is obsoleted in this android platform' -->
+    <remove-node path="/api/package[@name='no.nordicsemi.android.dfu']/interface[@name='DfuSettingsConstants']"/>
+
+    <!-- warning CS0618: 'setInitFile' is obsolete: 'This method is obsoleted in this android platform' -->
+    <remove-node path="/api/package[@name='no.nordicsemi.android.dfu']/class[@name='DfuServiceInitiator']/method[contains(@name, 'setInitFile')]"/>
+    <remove-node path="/api/package[@name='no.nordicsemi.android.dfu']/class[@name='DfuServiceInitiator']/method[contains(@name, 'setBinOrHex')]"/>
+
 </metadata>

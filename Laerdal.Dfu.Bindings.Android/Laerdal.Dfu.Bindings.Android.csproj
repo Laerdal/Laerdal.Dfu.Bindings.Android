@@ -6,18 +6,26 @@
         <Laerdal_Package_Description>Xamarin wrapper around Nordic.Dfu for Android.</Laerdal_Package_Description>
     </PropertyGroup>
 
-    <PropertyGroup>
+    <PropertyGroup><!-- blocked by : https://github.com/NordicSemiconductor/Android-DFU-Library/issues/428 -->
         <Nordic_Package_Version>2.3.0</Nordic_Package_Version>
         <Gson_Package_Version>2.10</Gson_Package_Version>
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-android;net7.0-android</TargetFrameworks>
-        
+        <TargetFramework>net7.0-android</TargetFramework>
+        <IsBindingProject>true</IsBindingProject>
+
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-        <!-- warning CS0618: 'IntentService' is obsolete: 'This class is obsoleted in this android platform' -->
-        <!-- warning CS0618: 'IDfuSettingsConstants' is obsolete: 'This class is obsoleted in this android platform' -->
-        <NoWarn>CS0618</NoWarn>
+    </PropertyGroup>
+
+    <!-- ==================== VERSION ==================== -->
+    <PropertyGroup>
+        <Laerdal_Revision Condition="'$(BUILD_BUILDID)' != ''">$(BUILD_BUILDID)</Laerdal_Revision> <!-- Azure DevOps, Last build was 43857 -->
+        <Laerdal_Revision Condition="'$(GITHUB_RUN_NUMBER)' != ''">$([MSBuild]::Add(43670, $(GITHUB_RUN_NUMBER)))</Laerdal_Revision> <!-- GitHub Actions, auto-increment from 0 -->
+        <Laerdal_Revision Condition="'$(CI_PIPELINE_IID)' != ''">$([MSBuild]::Add(43670, $(CI_PIPELINE_IID)))</Laerdal_Revision> <!-- GitLab, auto-increment from 0 -->
+        <Laerdal_Revision Condition="'$(Laerdal_Revision)' == ''">0</Laerdal_Revision> <!-- Fallback value -->
+
+        <Laerdal_Version Condition="'$(Laerdal_Version)' == ''">$(Nordic_Package_Version).$(Laerdal_Revision)</Laerdal_Version>
     </PropertyGroup>
 
     <Import Project="Laerdal.targets" />
@@ -37,7 +45,15 @@
       <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
     </ItemGroup>
     <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="Restore">
-        <DownloadFile DestinationFileName="dfu.aar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar" />
-        <DownloadFile DestinationFileName="gson.jar" DestinationFolder="Jars\" SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar" />
+        <DownloadFile 
+        DestinationFileName="dfu.aar" 
+        DestinationFolder="Jars\" 
+        SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"
+        Condition="!Exists('Jars\dfu.aar')"/>
+        <DownloadFile 
+        DestinationFileName="gson.jar" 
+        DestinationFolder="Jars\" 
+        SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar"
+        Condition="!Exists('Jars\gson.jar')"/>
     </Target>
 </Project>
