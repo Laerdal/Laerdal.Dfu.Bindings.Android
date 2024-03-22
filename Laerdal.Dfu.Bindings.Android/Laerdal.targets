@@ -5,6 +5,8 @@
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
+        <Optimize>false</Optimize>
+        <DebugSymbols>true</DebugSymbols>
         <IncludeSource>True</IncludeSource>
         <IncludeSymbols>True</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>

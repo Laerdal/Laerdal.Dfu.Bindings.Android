@@ -12,18 +12,18 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: windows-latest
     timeout-minutes: 5
     steps:
 
       - name: Checkout
         uses: actions/checkout@v4
         
-      # - name: Install Java11
-      #   uses: actions/setup-java@v4
-      #   with:
-      #     distribution: 'temurin'
-      #     java-version: '11'
+      - name: Install Java11
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
 
       - name: Restore Workloads
         run: dotnet workload restore
