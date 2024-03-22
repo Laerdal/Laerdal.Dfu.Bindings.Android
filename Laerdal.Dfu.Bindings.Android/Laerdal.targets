@@ -6,6 +6,7 @@
         <Optimize>false</Optimize>
         <LangVersion>latest</LangVersion>
         <NeutralLanguage>en</NeutralLanguage>
+        <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <OutputPath>bin\</OutputPath>
         <ErrorReport>prompt</ErrorReport>
@@ -22,8 +23,8 @@
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-        <IncludeSource>True</IncludeSource>
-        <IncludeSymbols>True</IncludeSymbols>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <Deterministic>true</Deterministic>
         <Nullable>enable</Nullable>
@@ -105,6 +106,17 @@
         <Message Importance="High" Text="AssemblyFileVersion: $(AssemblyFileVersion)"/>
         <Message Importance="High" Text="Version: $(Version)" />
         <Message Importance="High" Text="MSBuildRuntimeType: $(MSBuildRuntimeType)" />
+        <Message Importance="High" Text="Optimize: $(Optimize)" />
+        <Message Importance="High" Text="DebugType: $(DebugType)" />
+        <Message Importance="High" Text="DebugSymbols: $(DebugSymbols)" />
+        <Message Importance="High" Text="OutputPath: $(OutputPath)" />
+        <Message Importance="High" Text="OutputType: $(OutputType)" />
+        <Message Importance="High" Text="IncludeSource: $(IncludeSource)" />
+        <Message Importance="High" Text="IncludeSymbols: $(IncludeSymbols)" />
+        <Message Importance="High" Text="SymbolPackageFormat: $(SymbolPackageFormat)" />
+        <Message Importance="High" Text="Deterministic: $(Deterministic)" />
+        <Message Importance="High" Text="Nullable: $(Nullable)" />
+        <Message Importance="High" Text="ImplicitUsings: $(ImplicitUsings)" />
     </Target>
 
     <!-- ==================== VERSION ==================== -->

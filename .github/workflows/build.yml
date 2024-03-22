@@ -30,7 +30,7 @@ jobs:
         shell: bash
 
       - name: Build
-        run: dotnet build
+        run: dotnet build --configuration Release
         shell: bash
 
       - name: Publish Artifact
