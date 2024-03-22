@@ -44,7 +44,7 @@
     <ItemGroup>
       <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All" />
     </ItemGroup>
-    <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="Restore">
+    <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="BeforeBuild">
         <DownloadFile 
         DestinationFileName="dfu.aar" 
         DestinationFolder="Jars\" 
