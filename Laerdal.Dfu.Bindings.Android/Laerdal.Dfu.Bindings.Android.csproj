@@ -14,8 +14,11 @@
     <PropertyGroup>
         <TargetFramework>net7.0-android</TargetFramework>
         <IsBindingProject>true</IsBindingProject>
-
+        <DebugType>pdbonly</DebugType>
+        <Optimize>false</Optimize>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <AndroidLinkMode>Full</AndroidLinkMode>
+        <AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     </PropertyGroup>
 
     <!-- ==================== VERSION ==================== -->
