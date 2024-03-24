@@ -29,6 +29,10 @@ jobs:
         run: dotnet workload restore
         shell: bash
 
+      - name: Restore
+        run: dotnet restore
+        shell: bash
+
       - name: Build
         run: dotnet build --configuration Release
         shell: bash
