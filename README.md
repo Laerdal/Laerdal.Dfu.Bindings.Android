@@ -20,6 +20,12 @@ You'll need :
 git clone https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android.git
 ```
 
+### 2) Restore
+
+```bash
+dotnet restore
+```
+
 ### 2) Build
 
 ```bash
