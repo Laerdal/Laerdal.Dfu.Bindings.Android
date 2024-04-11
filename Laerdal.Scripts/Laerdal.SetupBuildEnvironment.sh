@@ -65,7 +65,13 @@ if [ $exitCode != 0 ]; then
 fi
 
 # declare dotnet_8_workload_version="8.0.3"
-dotnet   workload    restore # --from-rollback-file=https://maui.blob.core.windows.net/metadata/rollbacks/${dotnet_8_workload_version}.json   # we need to install additional packages manually
+dotnet                                \
+             workload                 \
+             install                  \
+                 maui                 \
+                 android              \
+                 wasm-tools-net7
+#                    --from-rollback-file=https://maui.blob.core.windows.net/metadata/rollbacks/${dotnet_8_workload_version}.json   # we need to install additional packages manually
 declare exitCode=$?
 if [ $exitCode != 0 ]; then
   echo "##vso[task.logissue type=error]Failed to restore dotnet workloads."
