@@ -26,7 +26,7 @@ git clone https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android.git
 dotnet restore
 ```
 
-### 2) Build
+### 3) Build
 
 ```bash
 dotnet build
