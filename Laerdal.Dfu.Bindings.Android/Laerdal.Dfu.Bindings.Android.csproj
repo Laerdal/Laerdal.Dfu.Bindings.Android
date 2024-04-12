@@ -29,26 +29,44 @@
     <Import Project="Laerdal.targets"/>
 
     <ItemGroup>
-        <AndroidLibrary Update="Jars\dfu.aar" Bind="true"/>
+        <AndroidLibrary Update="Jars\dfu-$(Nordic_Package_Version).aar" Bind="true"/>
 
-        <AndroidLibrary Remove="Jars\gson.jar"/>
-        <ReferenceJar Include="Jars\gson.jar"/>
+        <AndroidLibrary Remove="Jars\gson-$(Gson_Package_Version).jar"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All"/>
     </ItemGroup>
 
-    <Target Name="_DownloadAndroidNativeFiles" BeforeTargets="CollectPackageDownloads">
-        <DownloadFile
-                DestinationFileName="dfu.aar"
-                DestinationFolder="Jars\"
-                SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"
-                Condition="!Exists('Jars\dfu.aar')"/>
-        <DownloadFile
-                DestinationFileName="gson.jar"
-                DestinationFolder="Jars\"
-                SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar"
-                Condition="!Exists('Jars\gson.jar')"/>
+    <ItemGroup>
+      <Folder Include="Jars\" />
+    </ItemGroup>
+
+    <Target Name="CheckAndroidLibraryFilesExist" AfterTargets="_DownloadAndroidNativeFiles">
+        <Error Condition="!Exists('Jars\dfu-$(Nordic_Package_Version).aar')" Text="'Jars\dfu-$(Nordic_Package_Version).aar' does not exist!"/>
     </Target>
+
+    <Target Condition=" '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true' "
+            Name="_DownloadAndroidNativeFiles"
+            BeforeTargets="PrepareForBuild">
+
+        <DownloadFile Condition=" !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
+                      SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"
+                      DestinationFolder="Jars"
+                      DestinationFileName="dfu-$(Nordic_Package_Version).aar"/>
+
+        <DownloadFile Condition=" !Exists('Jars\gson-$(Gson_Package_Version).jar') "
+                      SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar"
+                      DestinationFolder="Jars"
+                      DestinationFileName="gson-$(Gson_Package_Version).jar"/>
+
+    </Target>
+
+    <Target Name="SpicNSpan" AfterTargets="Clean">
+        <!-- when performing a cleanup its vital to also clean any and all pre-existing .jar and .aar artifacts -->
+        <!-- otherwise any new .jar/.aar files might not be fully updated to their respective latest versions   -->
+        <RemoveDir Directories="Jars"/>
+        <MakeDir Directories="Jars"/>
+    </Target>
+
 </Project>

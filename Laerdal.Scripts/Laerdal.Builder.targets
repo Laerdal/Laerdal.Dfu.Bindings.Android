@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--                                                                                  -->
-<!--        dotnet    msbuild    "Laerdal.Scripts\Laerdal.Builder.targets"            -->
-<!--                                                                                  -->
+<!--                                                                                      -->
+<!--        dotnet    msbuild   "/m:1"  "Laerdal.Scripts\Laerdal.Builder.targets"         -->
+<!--                                                                                      -->
 <Project DefaultTargets="BuildProjects">
 
     <PropertyGroup>
@@ -40,9 +40,16 @@
             <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);Laerdal_Version=$(Laerdal_Version)</_Laerdal_Build_Parameters>
             <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);PackageOutputPath=$(PackageOutputPath)</_Laerdal_Build_Parameters>
         </PropertyGroup>
+
+        <!-- CLEAN -->
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Clean"/>
         
-        <!-- RUN -->
-        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Restore;Build"/>
+        <!-- RESTORE   notice that we have to invoke _DownloadAndroidNativeFiles explicitly for the build to work as intended in the pipeline -->
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Restore"/>
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters);BuildingProject=true" Targets="_DownloadAndroidNativeFiles"/>
+
+        <!-- BUILD -->
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Build"/>
     </Target>
 
     <!-- GITHUB RELEASE -->
