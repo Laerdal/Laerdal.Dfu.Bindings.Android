@@ -43,7 +43,7 @@
         <Error Condition="!Exists('Jars\dfu-$(Nordic_Package_Version).aar')" Text="'Jars\dfu-$(Nordic_Package_Version).aar' does not exist!"/>
     </Target>
 
-    <Target Condition=" '$(DesignTimeBuild)' != 'true' AND '$(BuildingProject)' == 'true' "
+    <Target Condition=" '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true' "
             Name="_DownloadAndroidNativeFiles"
             BeforeTargets="PrepareForBuild">
 
