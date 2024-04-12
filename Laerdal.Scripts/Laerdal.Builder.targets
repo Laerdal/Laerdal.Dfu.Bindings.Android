@@ -44,12 +44,12 @@
         <!-- CLEAN -->
         <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Clean"/>
         
-        <!-- RESTORE   notice that we have to invoke _DownloadAndroidNativeFiles explicitly for the build to work as intended in the pipeline -->
+        <!-- RESTORE   notice that we have to invoke _DownloadAndroidNativeFiles + BuildingProject=TRUE explicitly for the build to work as intended in the pipeline enviroment -->
         <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Restore"/>
         <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters);BuildingProject=true" Targets="_DownloadAndroidNativeFiles"/>
 
-        <!-- BUILD -->
-        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Build"/>
+        <!-- BUILD     notice that we have to invoke Build + BuildingProject=FALSE explicitly for the build to work as intended in the pipeline enviroment   otherwise the generated nuget wont really bind over to the underlying jars/aars -->
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters);BuildingProject=false" Targets="Build"/>
     </Target>
 
     <!-- GITHUB RELEASE -->
