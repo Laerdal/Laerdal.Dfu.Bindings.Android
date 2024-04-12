@@ -32,11 +32,14 @@
         <AndroidLibrary Update="Jars\dfu-$(Nordic_Package_Version).aar" Bind="true"/>
 
         <AndroidLibrary Remove="Jars\gson-$(Gson_Package_Version).jar"/>
-        <ReferenceJar Include="Jars\gson-$(Gson_Package_Version).jar"/>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Xamarin.AndroidX.Core" Version="1.10.1.1" PrivateAssets="All"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Jars\" />
     </ItemGroup>
 
     <Target Name="CheckAndroidLibraryFilesExist" AfterTargets="_DownloadAndroidNativeFiles">
