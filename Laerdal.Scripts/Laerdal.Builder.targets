@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--                                                                                  -->
-<!--        dotnet    msbuild    "Laerdal.Scripts\Laerdal.Builder.targets"            -->
-<!--                                                                                  -->
+<!--                                                                                      -->
+<!--        dotnet    msbuild   "/m:1"  "Laerdal.Scripts\Laerdal.Builder.targets"         -->
+<!--                                                                                      -->
 <Project DefaultTargets="BuildProjects">
 
     <PropertyGroup>
@@ -48,7 +48,7 @@
         <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Restore"/>
         
         <!-- BUILD -->
-        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters)" Targets="Build"/>
+        <MSBuild Projects="$(Laerdal_Project)" Properties="$(_Laerdal_Build_Parameters);BuildingProject=true" Targets="Build"/>
     </Target>
 
     <!-- GITHUB RELEASE -->
