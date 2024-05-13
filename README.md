@@ -1,10 +1,10 @@
-# Laerdal.Dfu.Bindings.Android
+# 🏠 Laerdal.Dfu.Bindings.Android
 
 This is an Xamarin binding library for the Nordic Semiconductors Android library for updating the firmware of their devices over the air via Bluetooth Low Energy.
 
 The Java library is located here: https://github.com/NordicSemiconductor/Android-DFU-Library
 
-## Requirements
+## 🚀 Getting Started
 
 You'll need :
 
@@ -12,7 +12,7 @@ You'll need :
   - with **gradle**
   - with **Xamarin.Android**
 
-## Steps to build on Local-Dev
+## 🛠️ Build
 
 ### 1) Checkout
 
@@ -26,7 +26,7 @@ git clone https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android.git
 dotnet restore
 ```
 
-### 2) Build
+### 3) Build
 
 ```bash
 dotnet build
