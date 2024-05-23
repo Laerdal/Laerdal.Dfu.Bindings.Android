@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net7.0-android</TargetFramework>
+        <TargetFramework>net8.0-android</TargetFramework>
 
         <IsBindingLibrary>true</IsBindingLibrary>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
@@ -40,7 +40,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Jars\"/>
+      <None Include="Jars\" />
     </ItemGroup>
 
     <Target Condition=" '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true' "
