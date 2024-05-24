@@ -43,9 +43,8 @@
         <Description>$(Laerdal_Package_Description)</Description>
         <PackageDescription>$(Laerdal_Package_Description)</PackageDescription>
 
-        <!-- Laerdal_Package_Output -->
-        <PackageOutputPath Condition="'$(PackageOutputPath)' == ''" >$(Laerdal_Package_Output)</PackageOutputPath>
-        <PackageOutputPath Condition="'$(PackageOutputPath)' == '' ">$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), `../Output/`))</PackageOutputPath> <!-- default -->
+        <!-- PackageOutputPath -->
+        <PackageOutputPath Condition="'$(PackageOutputPath)' == ''" >$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), `../Artifacts/`))</PackageOutputPath>
         
         <!-- Extra files and properties -->
         <PackageTags>Laerdal;Internal;$(Laerdal_Package_Tags)</PackageTags>
