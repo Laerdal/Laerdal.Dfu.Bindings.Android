@@ -3,11 +3,11 @@
 <!--                                                                                                                       -->
 <!--  - macos:                                                                                                             -->
 <!--                                                                                                                       -->
-<!--        dotnet    msbuild    "/m:1"     "/p:Laerdal_Version=99.0.0.x"    "Laerdal.Scripts/Laerdal.Builder.targets"     -->
+<!--        dotnet    msbuild    "/m:1"     "/p:Laerdal_Version=9.0.0.x"    "Laerdal.Scripts/Laerdal.Builder.targets"     -->
 <!--                                                                                                                       -->
 <!--  - windows powershell:                                                                                                -->
 <!--                                                                                                                       -->
-<!--        dotnet    msbuild   "'/m:1'"   "'/p:Laerdal_Version=99.0.0.x'"   "Laerdal.Scripts\Laerdal.Builder.targets"     -->
+<!--        dotnet    msbuild   "'/m:1'"   "'/p:Laerdal_Version=9.0.0.x'"   "Laerdal.Scripts\Laerdal.Builder.targets"     -->
 <!--                                                                                                                       -->
 <Project DefaultTargets="BuildProjects">
 
