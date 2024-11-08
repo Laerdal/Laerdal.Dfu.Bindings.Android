@@ -21,23 +21,23 @@ if [ -z "${DOTNET_TARGET_WORKLOAD_VERSION}" ]; then
 fi
 
 if [ -z "${NUGET_FEED_URL}" ]; then
-  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_URL' which was expected to be parameter #1."
-  exit 3
+  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_URL' which was expected to be parameter #2."
+  exit 2
 fi
 
 if [ -z "${NUGET_FEED_USERNAME}" ]; then
-  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_USERNAME' which was expected to be parameter #2."
-  exit 5
+  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_USERNAME' which was expected to be parameter #3."
+  exit 3
 fi
 
 if [ -z "${NUGET_FEED_ACCESSTOKEN}" ]; then
-  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_ACCESSTOKEN' which was expected to be parameter #3."
-  exit 6
+  echo "##vso[task.logissue type=error]Missing 'NUGET_FEED_ACCESSTOKEN' which was expected to be parameter #4."
+  exit 4
 fi
 
 if [ -z "${ARTIFACTS_FOLDER_PATH}" ]; then
-  echo "##vso[task.logissue type=error]Missing 'ARTIFACTS_FOLDER_PATH' which was expected to be parameter #4."
-  exit 7
+  echo "##vso[task.logissue type=error]Missing 'ARTIFACTS_FOLDER_PATH' which was expected to be parameter #5."
+  exit 5
 fi
 
 
