@@ -26,6 +26,13 @@
         <Laerdal_Version Condition=" '$(Laerdal_Version)' == '' ">$(Nordic_Package_Version).$(Laerdal_Revision)</Laerdal_Version>
     </PropertyGroup>
 
+    <!-- ==================== TARGET PLATFORM VERSION ======================= -->
+    <PropertyGroup>
+        <TargetPlatformVersion>34</TargetPlatformVersion>
+        <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+    </PropertyGroup>
+
     <Import Project="Laerdal.targets"/>
 
     <ItemGroup>
