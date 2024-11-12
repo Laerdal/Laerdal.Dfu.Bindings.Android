@@ -3,11 +3,11 @@
 <!--                                                                                                                       -->
 <!--  - macos:                                                                                                             -->
 <!--                                                                                                                       -->
-<!--        dotnet    msbuild    "/m:1"     "/p:Laerdal_Version_Full=9.0.0.x"    "Laerdal.Scripts/Laerdal.Builder.targets"      -->
+<!--        dotnet    msbuild    "/m:1"     "/p:Laerdal_Version_Full=9.0.0.x"    "Laerdal.Scripts/Laerdal.Builder.targets" -->
 <!--                                                                                                                       -->
 <!--  - windows powershell:                                                                                                -->
 <!--                                                                                                                       -->
-<!--        dotnet    msbuild   "'/m:1'"   "'/p:Laerdal_Version_Full=9.0.0.x'"   "Laerdal.Scripts\Laerdal.Builder.targets"      -->
+<!--        dotnet    msbuild   "'/m:1'"   "'/p:Laerdal_Version_Full=9.0.0.x'"   "Laerdal.Scripts\Laerdal.Builder.targets" -->
 <!--                                                                                                                       -->
 <Project DefaultTargets="BuildProjects">
 
@@ -58,8 +58,8 @@
         <!-- PARAMETERS -->
         <PropertyGroup>
             <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);Configuration=$(Configuration)</_Laerdal_Build_Parameters>
-            <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);Laerdal_Version_Full=$(Laerdal_Version_Full)</_Laerdal_Build_Parameters>
             <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);PackageOutputPath=$(PackageOutputPath)</_Laerdal_Build_Parameters>
+            <_Laerdal_Build_Parameters>$(_Laerdal_Build_Parameters);Laerdal_Version_Full=$(Laerdal_Version_Full)</_Laerdal_Build_Parameters>
         </PropertyGroup>
 
         <!-- CLEAN -->
@@ -78,7 +78,7 @@
             Condition=" '$(Laerdal_Should_Tag_And_Release)' == 'True' "
             AfterTargets="BuildProjects">
 
-        <Error Condition=" '$(Laerdal_Version_Full_Full)'        == '' " Text="'Laerdal_Version_Full_Full' has to be set. Please call this script again with the argument '/p:Laerdal_Version_Full_Full=...'" />
+        <Error Condition=" '$(Laerdal_Version_Full)'        == '' " Text="'Laerdal_Version_Full' has to be set. Please call this script again with the argument '/p:Laerdal_Version_Full=...'" />
         <Error Condition=" '$(Laerdal_Source_Branch)'       == '' " Text="'Laerdal_Source_Branch' has to be set. Please call this script again with the argument '/p:Laerdal_Source_Branch=...'" />
         <Error Condition=" '$(Laerdal_Repository_Path)'     == '' " Text="'Laerdal_Repository_Path' has to be set. Please call this script again with the argument '/p:Laerdal_Repository_Path=...'" />
         <Error Condition=" '$(Laerdal_Github_Access_Token)' == '' " Text="'Laerdal_Github_Access_Token' has to be set. Please call this script again with the argument '/p:Laerdal_Github_Access_Token=...'" />
@@ -87,7 +87,7 @@
             <Laerdal_Create_Github_Release_Script_Filepath Condition=" '$(Laerdal_Create_Github_Release_Script_Filepath)' == '' ">$([System.IO.Path]::Combine($(MSBuildThisFileDirectory), `Laerdal.CreateNewReleaseInGithub.sh`))</Laerdal_Create_Github_Release_Script_Filepath>
 
             <_Laerdal_Create_Github_Release_Script_Parameters>$(_Laerdal_Create_Github_Release_Script_Parameters) --git-branch       '$(Laerdal_Source_Branch)'</_Laerdal_Create_Github_Release_Script_Parameters>
-            <_Laerdal_Create_Github_Release_Script_Parameters>$(_Laerdal_Create_Github_Release_Script_Parameters) --tag-version      '$(Laerdal_Version_Full_Full)'</_Laerdal_Create_Github_Release_Script_Parameters>
+            <_Laerdal_Create_Github_Release_Script_Parameters>$(_Laerdal_Create_Github_Release_Script_Parameters) --tag-version      '$(Laerdal_Version_Full)'</_Laerdal_Create_Github_Release_Script_Parameters>
             <_Laerdal_Create_Github_Release_Script_Parameters>$(_Laerdal_Create_Github_Release_Script_Parameters) --access-token     '$(Laerdal_Github_Access_Token)'</_Laerdal_Create_Github_Release_Script_Parameters>
             <_Laerdal_Create_Github_Release_Script_Parameters>$(_Laerdal_Create_Github_Release_Script_Parameters) --repository-path  '$(Laerdal_Repository_Path)'</_Laerdal_Create_Github_Release_Script_Parameters>
         </PropertyGroup>
@@ -107,13 +107,13 @@
 
         <Error Condition=" '$(PackageOutputPath)'                                        == '' " Text="'PackageOutputPath' has to be set. Please call this script again with the argument '/p:PackageOutputPath=...'"/>
         <Error Condition=" '$(Laerdal_Project)'                                          == '' " Text="'Laerdal_Project' has to be set. Please call this script again with the argument '/p:Laerdal_Project=...'"/>
-        <!-- <Error Condition=" '$(Laerdal_Version_Full_Full)'                           == '' " Text="'Laerdal_Version_Full_Full' has to be set. Please call this script again with the argument '/p:Laerdal_Version_Full_Full=...'"/> -->
+        <!-- <Error Condition=" '$(Laerdal_Version_Full)'                           == '' " Text="'Laerdal_Version_Full' has to be set. Please call this script again with the argument '/p:Laerdal_Version_Full=...'"/> -->
         <Error Condition=" '$(Laerdal_Version_Assembly)'                                 == '' " Text="'Laerdal_Version_Assembly' has to be set. Please call this script again with the argument '/p:Laerdal_Version_Assembly=...'"/>
         <Error Condition=" '$(Laerdal_Dependency_Tracker_Api_Key_File_Path)'             == '' " Text="'Laerdal_Dependency_Tracker_Api_Key_File_Path' has to be set. Please call this script again with the argument '/p:Laerdal_Dependency_Tracker_Api_Key_File_Path=...'"/>
         <Error Condition=" '$(Laerdal_Dependency_Tracker_Private_Signing_Key_File_Path)' == '' " Text="'Laerdal_Dependency_Tracker_Private_Signing_Key_File_Path' has to be set. Please call this script again with the argument '/p:Laerdal_Dependency_Tracker_Private_Signing_Key_File_Path=...'"/>
 
         <PropertyGroup>
-            <!-- notice that we intentionally use $(Laerdal_Version_Assembly) instead of $(Laerdal_Version_Full_Full) -->
+            <!-- notice that we intentionally use $(Laerdal_Version_Assembly) instead of $(Laerdal_Version_Full) -->
             <!-- because cyclonedx inherently ear-tags sboms with the former rather than the later               -->
 
             <_Laerdal_Project_Name>$([System.IO.Path]::GetFileName('$(Laerdal_Project)').Replace('.csproj', ''))</_Laerdal_Project_Name>
