@@ -44,6 +44,11 @@
 
     <ItemGroup>
         <PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0.2" PrivateAssets="All" />
+
+        <!-- at some point around december 2025 when the android16-sdk-build-tools got upgraded this became a necessity for laerdal.dfu to work with -->
+        <!-- resuscis otherwise we would end up with missing symbol errors    this happened out of the blue even though the nordic-libs and the rest -->
+        <!-- of our nugets and build system in dotnet9 remained virtually the same   go figure ...                                                   -->
+        <PackageReference Include="Xamarin.AndroidX.LocalBroadcastManager" Version="1.1.0.22" /> 
     </ItemGroup>
 
     <ItemGroup>
