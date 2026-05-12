@@ -3,11 +3,11 @@
         <Laerdal_Package_Name>Laerdal.Dfu.Bindings.Android</Laerdal_Package_Name>
         <Laerdal_Package_Tags>Ble;Tools;MAUI;Dfu;Bluetooth;Nordic;Semiconductor</Laerdal_Package_Tags>
         <Laerdal_Package_Copyright>Laerdal Medical, Francois Raminosona</Laerdal_Package_Copyright>
-        <Laerdal_Package_Description>Xamarin wrapper around Nordic.Dfu for Android.</Laerdal_Package_Description>
+        <Laerdal_Package_Description>.NET MAUI binding for Nordic DFU library on Android.</Laerdal_Package_Description>
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net8.0-android</TargetFramework>
+        <TargetFramework>net10.0-android</TargetFramework>
 
         <IsBindingLibrary>true</IsBindingLibrary>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
@@ -28,7 +28,7 @@
 
     <!-- ==================== TARGET PLATFORM VERSION ======================= -->
     <PropertyGroup>
-        <TargetPlatformVersion>34</TargetPlatformVersion>
+        <TargetPlatformVersion>36</TargetPlatformVersion>
         <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     </PropertyGroup>
@@ -59,19 +59,10 @@
             Name="_DownloadAndroidNativeFiles"
             BeforeTargets="PrepareForBuild">
 
-        <!-- note that the vanilla aar build of version 2.4.2 was problematic for C# bindings https://github.com/NordicSemiconductor/Android-DFU-Library/pull/435 -->
-        <!-- so we resorted to generating a custom aar which solves the problems mentioned in the link and we hosted it on a different location                   -->
-        <DownloadFile Condition=" '$(Nordic_Package_Version)' != '2.4.2' and !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
+        <DownloadFile Condition=" !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
                       SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"
                       DestinationFolder="Jars"
                       DestinationFileName="dfu-$(Nordic_Package_Version).aar"/>
-
-        <!-- HACK remove this once we move past version 2.4.2 and https://github.com/NordicSemiconductor/Android-DFU-Library/pull/435 is merged -->
-        <DownloadFile Condition=" '$(Nordic_Package_Version)' == '2.4.2' and !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
-                      SourceUrl="https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android/files/15408955/dfu-2.4.2.fixed_aar.zip"
-                      DestinationFolder="Jars"
-                      DestinationFileName="dfu-$(Nordic_Package_Version).aar"/>
-        <!-- END HACK -->
 
         <DownloadFile Condition=" !Exists('Jars\gson-$(Gson_Package_Version).jar') "
                       SourceUrl="https://repo1.maven.org/maven2/com/google/code/gson/gson/$(Gson_Package_Version)/gson-$(Gson_Package_Version).jar"
