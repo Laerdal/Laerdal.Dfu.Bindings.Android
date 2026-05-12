@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TargetFramework>net8.0-android</TargetFramework>
+        <TargetFramework>net10.0-android</TargetFramework>
 
         <IsBindingLibrary>true</IsBindingLibrary>
         <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
@@ -28,7 +28,7 @@
 
     <!-- ==================== TARGET PLATFORM VERSION ======================= -->
     <PropertyGroup>
-        <TargetPlatformVersion>34</TargetPlatformVersion>
+        <TargetPlatformVersion>36</TargetPlatformVersion>
         <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     </PropertyGroup>
