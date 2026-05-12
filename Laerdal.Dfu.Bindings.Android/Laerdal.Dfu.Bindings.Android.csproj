@@ -3,7 +3,7 @@
         <Laerdal_Package_Name>Laerdal.Dfu.Bindings.Android</Laerdal_Package_Name>
         <Laerdal_Package_Tags>Ble;Tools;MAUI;Dfu;Bluetooth;Nordic;Semiconductor</Laerdal_Package_Tags>
         <Laerdal_Package_Copyright>Laerdal Medical, Francois Raminosona</Laerdal_Package_Copyright>
-        <Laerdal_Package_Description>Xamarin wrapper around Nordic.Dfu for Android.</Laerdal_Package_Description>
+        <Laerdal_Package_Description>.NET MAUI binding for Nordic DFU library on Android.</Laerdal_Package_Description>
     </PropertyGroup>
 
     <PropertyGroup>
