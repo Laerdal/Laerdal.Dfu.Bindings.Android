@@ -55,9 +55,9 @@
       <None Include="Jars\" />
     </ItemGroup>
 
-    <Target Condition=" '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true' "
+    <Target Condition=" '$(DesignTimeBuild)' != 'true' "
             Name="_DownloadAndroidNativeFiles"
-            BeforeTargets="PrepareForBuild">
+            BeforeTargets="Restore">
 
         <DownloadFile Condition=" !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
                       SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"
