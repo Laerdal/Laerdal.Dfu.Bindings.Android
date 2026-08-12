@@ -27,6 +27,13 @@
     </PropertyGroup>
 
     <!-- ==================== TARGET PLATFORM VERSION ======================= -->
+    <!-- this is pinned (not floating) on purpose, but that pin is a landmine: if it's ever bumped ahead   -->
+    <!-- of what net10.0-android resolves to by default for consumers (Laerdal.Dfu, Laerdal.Bluetooth.     -->
+    <!-- Firmware, fds-mobile-app, ...), NuGet silently falls back away from this package's assets with no -->
+    <!-- build warning - the exact failure mode that once made Laerdal.Dfu itself ship a non-functional    -->
+    <!-- Android build (see Laerdal.Dfu's own README "Known issues" + its own TargetPlatformVersion        -->
+    <!-- comment, which deliberately floats for this same reason). Before bumping this, check what those   -->
+    <!-- consumers actually resolve to (dotnet build -getProperty:TargetPlatformVersion) - don't assume.    -->
     <PropertyGroup>
         <TargetPlatformVersion>36</TargetPlatformVersion>
         <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
@@ -55,9 +62,9 @@
       <None Include="Jars\" />
     </ItemGroup>
 
-    <Target Condition=" '$(DesignTimeBuild)' != 'true' and '$(BuildingProject)' == 'true' "
+    <Target Condition=" '$(DesignTimeBuild)' != 'true' "
             Name="_DownloadAndroidNativeFiles"
-            BeforeTargets="PrepareForBuild">
+            BeforeTargets="Restore">
 
         <DownloadFile Condition=" !Exists('Jars\dfu-$(Nordic_Package_Version).aar') "
                       SourceUrl="https://repo1.maven.org/maven2/no/nordicsemi/android/dfu/$(Nordic_Package_Version)/dfu-$(Nordic_Package_Version).aar"

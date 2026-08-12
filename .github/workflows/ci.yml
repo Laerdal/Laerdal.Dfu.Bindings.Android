@@ -1,0 +1,177 @@
+name: '🏗 Build & Package'
+
+run-name: >-
+  ${{ github.event_name == 'pull_request' &&
+      format('🏗 {0} - {1} → {2} by {3}', github.event_name, github.head_ref, github.base_ref, github.actor) ||
+      format('🏗 {0} - {1} - {2} by {3}', github.event_name, github.ref_name, github.sha, github.actor) }}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # Needed to create tags and releases
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+
+  PROJECT_PATH: 'Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj'
+  PACKAGE_OUTPUT_PATH: '${{ github.workspace }}/Artifacts'
+  NORDIC_PACKAGE_VERSION: '2.9.0'   # keep in sync with Nordic_Package_Version in the .csproj
+
+jobs:
+
+  version:
+    name: '🔢 Compute version'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: '🔢 Compute version'
+        id: version
+        run: |
+          # Package version tracks the wrapped Nordic native library: {Nordic_Package_Version}.{revision}.
+          # The revision is derived from the highest already-published revision on NuGet.org (not
+          # GITHUB_RUN_NUMBER) so it survives workflow-file replacements/renames without regressing
+          # below, or colliding with, a version that's already live.
+          VERSIONS_JSON=$(curl -sf 'https://api.nuget.org/v3-flatcontainer/laerdal.dfu.bindings.android/index.json' || echo '{"versions":[]}')
+
+          LATEST_REVISION=$(echo "$VERSIONS_JSON" | jq -r --arg prefix "${NORDIC_PACKAGE_VERSION}." '
+            [ .versions[] | select(startswith($prefix)) | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$")) | split(".")[3] | tonumber ] | max // empty')
+
+          if [ -z "$LATEST_REVISION" ]; then
+            # first release under a freshly-bumped Nordic version - float above every revision published so far
+            LATEST_REVISION=$(echo "$VERSIONS_JSON" | jq -r '
+              [ .versions[] | select(test("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$")) | split(".")[3] | tonumber ] | max // 0')
+          fi
+
+          VERSION="${NORDIC_PACKAGE_VERSION}.$((LATEST_REVISION + 1))"
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "### 🔢 Version: \`${VERSION}\`" >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    name: '🏗️ Build & Pack'
+    runs-on: windows-2022
+    timeout-minutes: 20
+    needs: version
+    steps:
+
+      - name: '🔽 Checkout'
+        uses: actions/checkout@v4
+
+      - name: '🔧 Setup .NET'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'    # global.json "10.0.0" + rollForward:latestMinor — setup-dotnet doesn't honour rollForward, so specify the channel directly
+
+      - name: '☕ Setup JDK 17'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          architecture: 'x64'
+          distribution: 'temurin'
+
+      - name: '📲 Restore .NET workloads'
+        uses: laerdal/github_actions/dotnet@main
+        with:
+          command: workload
+          arguments: restore '${{ github.workspace }}/${{ env.PROJECT_PATH }}'
+          show-summary: true
+
+      - name: '🔄 Restore'
+        uses: laerdal/github_actions/dotnet@main
+        with:
+          command: restore
+          path: '${{ github.workspace }}/${{ env.PROJECT_PATH }}'
+          show-summary: true
+
+      - name: '🔨 Build & Pack'
+        uses: laerdal/github_actions/dotnet@main
+        with:
+          command: build
+          path: '${{ github.workspace }}/${{ env.PROJECT_PATH }}'
+          configuration: Release
+          no-restore: true
+          arguments: >
+            -p:Laerdal_Version_Full='${{ needs.version.outputs.version }}'
+            -p:GeneratePackageOnBuild=true
+            -p:PackageOutputPath='${{ env.PACKAGE_OUTPUT_PATH }}'
+          show-summary: true
+
+      - name: '📄 Generate CycloneDX SBOM'
+        uses: laerdal/github_actions/dotnet-cyclonedx@main
+        with:
+          path: '${{ github.workspace }}/${{ env.PROJECT_PATH }}'
+          output: '${{ env.PACKAGE_OUTPUT_PATH }}'
+          filename: 'Laerdal.Dfu.Bindings.Android.cyclonedx.json'
+          output-format: 'Json'
+          set-name: 'Laerdal.Dfu.Bindings.Android'
+          set-version: '${{ needs.version.outputs.version }}'
+          show-summary: true
+
+      - name: '⬆️ Upload Artifacts'
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: '${{ env.PACKAGE_OUTPUT_PATH }}/**/*'
+          if-no-files-found: error
+
+  publish-nuget:
+    name: '🚀 Publish to NuGet.org'
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: nuget-org
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+
+      - name: '📦 Download Artifacts'
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: Artifacts
+
+      - name: '🚀 Push to NuGet.org'
+        uses: laerdal/github_actions/dotnet-nuget-upload@main
+        with:
+          package-path: '${{ github.workspace }}/Artifacts/*.nupkg'
+          api-key: ${{ secrets.NUGET_ORG_API_KEY }}
+          source: 'https://api.nuget.org/v3/index.json'
+          show-summary: true
+
+  tag-and-release:
+    name: '🏷️ Tag & Release'
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [version, publish-nuget]
+    steps:
+
+      - name: '🔄 Checkout'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: '📦 Download Artifacts'
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: Artifacts
+
+      - name: '🚀 Create GitHub Release'
+        uses: laerdal/github_actions/github-release@main
+        with:
+          tag: ${{ needs.version.outputs.version }}
+          title: 'Release ${{ needs.version.outputs.version }}'
+          generate-notes: 'true'
+          assets: 'Artifacts/Laerdal.Dfu.Bindings.Android.cyclonedx.json'
+          show-summary: 'true'
