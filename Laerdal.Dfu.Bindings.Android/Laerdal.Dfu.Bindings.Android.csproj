@@ -15,7 +15,8 @@
 
     <!-- ==================== VERSION ==================== -->
     <PropertyGroup>
-        <!-- blocked by : https://github.com/NordicSemiconductor/Android-DFU-Library/issues/428 -->
+        <!-- needed on the classpath to compile against Nordic's .aar, excluded from binding/packaging below -->
+        <!-- (see README "Known issues" - the issue-428 citation this comment used to carry was mislabeled)  -->
         <Gson_Package_Version>2.11.0</Gson_Package_Version>
 
         <!-- when updating this version it is imperative to also update NORDIC_PACKAGE_VERSION in    -->
@@ -27,15 +28,15 @@
     </PropertyGroup>
 
     <!-- ==================== TARGET PLATFORM VERSION ======================= -->
-    <!-- this is pinned (not floating) on purpose, but that pin is a landmine: if it's ever bumped ahead   -->
-    <!-- of what net10.0-android resolves to by default for consumers (Laerdal.Dfu, Laerdal.Bluetooth.     -->
-    <!-- Firmware, fds-mobile-app, ...), NuGet silently falls back away from this package's assets with no -->
-    <!-- build warning - the exact failure mode that once made Laerdal.Dfu itself ship a non-functional    -->
-    <!-- Android build (see Laerdal.Dfu's own README "Known issues" + its own TargetPlatformVersion        -->
-    <!-- comment, which deliberately floats for this same reason). Before bumping this, check what those   -->
-    <!-- consumers actually resolve to (dotnet build -getProperty:TargetPlatformVersion) - don't assume.    -->
+    <!-- deliberately NOT pinning TargetPlatformVersion here - it must float to whatever the building SDK/  -->
+    <!-- workload resolves as default, same as every consumer (Laerdal.Dfu, Laerdal.Bluetooth.Firmware,     -->
+    <!-- fds-mobile-app, ...). A hardcoded value here (previously 36) can drift ahead of what consumers     -->
+    <!-- resolve by default, which makes this package's android-specific lib folder invisible to those      -->
+    <!-- consumers under normal NuGet TargetPlatformVersion compatibility rules - NuGet then silently falls  -->
+    <!-- back away from this package's assets with no build warning. This is the exact failure mode that    -->
+    <!-- once made Laerdal.Dfu itself ship a non-functional Android build (see that repo's own              -->
+    <!-- TargetPlatformVersion comment, which applies the same fix for the same reason). -->
     <PropertyGroup>
-        <TargetPlatformVersion>36</TargetPlatformVersion>
         <TargetPlatformMinVersion>21.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     </PropertyGroup>
