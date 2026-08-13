@@ -48,16 +48,17 @@ build downloads Nordic's `.aar` and a matching Gson `.jar` straight from Maven C
   SDK 36 build-tools upgrade (~December 2025), omitting this pin causes "missing symbol" errors in
   *consuming* apps at build time, even though nothing in this binding's own Java sources changed —
   see [PR #12](https://github.com/Laerdal/Laerdal.Dfu.Bindings.Android/pull/12).
-- **The bundled Gson `.jar` is deliberately excluded from binding/packaging**
-  (`Laerdal.Dfu.Bindings.Android.csproj`'s `AndroidLibrary`/`AndroidJavaLibrary Remove` items).
-  This works around a duplicate-symbol conflict in Nordic's own library — see
-  [Android-DFU-Library#428](https://github.com/NordicSemiconductor/Android-DFU-Library/issues/428).
-  Removing the exclusion reintroduces the conflict.
-- **`TargetPlatformVersion` here is pinned (currently `36`), not floating.** If it's ever bumped
-  ahead of what consumers resolve to by default, NuGet will silently fall back away from this
-  package's assets with no build warning — the exact failure mode that once made `Laerdal.Dfu`
-  itself silently ship a non-functional Android build. Don't bump this without checking what
-  `net10.0-android` resolves to by default across the current mobile stack first.
+- **The bundled Gson `.jar` is downloaded but deliberately excluded from binding/packaging**
+  (`Laerdal.Dfu.Bindings.Android.csproj`'s `AndroidLibrary`/`AndroidJavaLibrary Remove` items) —
+  Nordic's own `.aar` needs Gson on the classpath to compile against, but this project doesn't want
+  to ship a full Gson C# binding alongside it. The csproj comment citing
+  [Android-DFU-Library#428](https://github.com/NordicSemiconductor/Android-DFU-Library/issues/428)
+  as the reason is **likely a mislabeled reference** — that issue is about an unrelated `values.xml`
+  string-formatting build error, not Gson. The real history is closer to
+  [#218](https://github.com/NordicSemiconductor/Android-DFU-Library/issues/218) (a long-since-fixed
+  missing-Gson-in-POM issue from 2019), but that doesn't explain the *exclusion* either. Don't treat
+  either issue number as authoritative without further digging; don't remove the exclusion without
+  testing first.
 
 ## License
 
