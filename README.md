@@ -10,7 +10,7 @@ A .NET MAUI/Xamarin binding library over Nordic Semiconductor's native Android D
 Firmware Update) SDK, letting .NET code drive firmware updates on Nordic-based Bluetooth Low
 Energy devices over Android.
 
-Native library wrapped: [Android-DFU-Library](https://github.com/NordicSemiconductor/Android-DFU-Library) (currently `2.9.0`).
+Native library wrapped: [Android-DFU-Library](https://github.com/NordicSemiconductor/Android-DFU-Library) (currently `2.11.0`).
 
 This package is a thin, largely 1:1 binding of Nordic's Java API — most consumers should use
 [`Laerdal.Dfu`](https://github.com/Laerdal/Laerdal.Dfu) instead, which wraps this binding (plus

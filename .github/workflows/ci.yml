@@ -25,7 +25,7 @@ env:
 
   PROJECT_PATH: 'Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj'
   PACKAGE_OUTPUT_PATH: '${{ github.workspace }}/Artifacts'
-  NORDIC_PACKAGE_VERSION: '2.9.0'   # keep in sync with Nordic_Package_Version in the .csproj
+  NORDIC_PACKAGE_VERSION: '2.11.0'   # keep in sync with Nordic_Package_Version in the .csproj
 
 jobs:
 
