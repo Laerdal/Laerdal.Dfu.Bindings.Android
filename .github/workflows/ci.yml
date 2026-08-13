@@ -25,7 +25,6 @@ env:
 
   PROJECT_PATH: 'Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj'
   PACKAGE_OUTPUT_PATH: '${{ github.workspace }}/Artifacts'
-  NORDIC_PACKAGE_VERSION: '2.11.0'   # keep in sync with Nordic_Package_Version in the .csproj
 
 jobs:
 
@@ -35,6 +34,19 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
+      - name: '🔄 Checkout'
+        uses: actions/checkout@v7
+
+      - name: '📐 Read Nordic package version'
+        id: nordic-version
+        run: |
+          VERSION=$(sed -n 's/.*<Nordic_Package_Version[^>]*>\([0-9.]*\)<\/Nordic_Package_Version>.*/\1/p' Laerdal.Dfu.Bindings.Android/Laerdal.Dfu.Bindings.Android.csproj | head -1)
+          if [ -z "$VERSION" ]; then
+            echo "::error::Could not extract Nordic_Package_Version from Laerdal.Dfu.Bindings.Android.csproj"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: '🔢 Compute version'
         id: version
         run: |
@@ -42,6 +54,8 @@ jobs:
           # The revision is derived from the highest already-published revision on NuGet.org (not
           # GITHUB_RUN_NUMBER) so it survives workflow-file replacements/renames without regressing
           # below, or colliding with, a version that's already live.
+          NORDIC_PACKAGE_VERSION="${{ steps.nordic-version.outputs.version }}"
+
           VERSIONS_JSON=$(curl -sf 'https://api.nuget.org/v3-flatcontainer/laerdal.dfu.bindings.android/index.json' || echo '{"versions":[]}')
 
           LATEST_REVISION=$(echo "$VERSIONS_JSON" | jq -r --arg prefix "${NORDIC_PACKAGE_VERSION}." '
