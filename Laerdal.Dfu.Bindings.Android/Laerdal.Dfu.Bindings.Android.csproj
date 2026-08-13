@@ -19,8 +19,8 @@
         <!-- (see README "Known issues" - the issue-428 citation this comment used to carry was mislabeled)  -->
         <Gson_Package_Version>2.11.0</Gson_Package_Version>
 
-        <!-- when updating this version it is imperative to also update NORDIC_PACKAGE_VERSION in    -->
-        <!-- .github/workflows/ci.yml to match - the CI-computed package version is derived from it  -->
+        <!-- .github/workflows/ci.yml's version job reads this value directly (sed) rather than    -->
+        <!-- keeping its own copy, so bumping it here is the only place that needs to change        -->
         <Nordic_Package_Version Condition=" '$(Nordic_Package_Version)' == '' ">2.11.0</Nordic_Package_Version>
         <Laerdal_Revision Condition="       '$(Laerdal_Revision)'       == '' ">0</Laerdal_Revision>
 
