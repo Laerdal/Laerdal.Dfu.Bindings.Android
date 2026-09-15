@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Enable Central Package Management -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- ==================== CORE DEPENDENCIES ==================== -->
+  <ItemGroup>
+    <PackageVersion Include="Xamarin.AndroidX.Core" Version="1.15.0.2" />
+    <PackageVersion Include="Xamarin.AndroidX.LocalBroadcastManager" Version="1.1.0.22" />
+  </ItemGroup>
+</Project>
