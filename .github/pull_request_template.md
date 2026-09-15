@@ -17,6 +17,8 @@ Explain the reason for this change.
 ## Affected Areas
 
 - [ ] Native binding (`Laerdal.Dfu.Bindings.Android.csproj`)
+- [ ] Shared build config (`Laerdal.targets`)
+- [ ] Central package management (`Directory.Packages.props`)
 - [ ] Nordic DFU `.aar` version bump
 - [ ] Gson dependency handling
 - [ ] Transforms (`Transforms/`)
@@ -44,6 +46,8 @@ Validation notes:
 
 ## Checklist
 
-- [ ] Commit messages follow Conventional Commits (`type(scope): subject`)
+- [ ] Commit header follows `type(scope): short imperative` and is <= 72 chars
+- [ ] Commit type is one of: feat, fix, refa, perf, docs, ci, chore, test, build
+- [ ] Commit body is 1-2 factual sentences (what/why), no emojis, refs, or co-authors
 - [ ] CI passes
 - [ ] Change is scoped to one logical unit of work
