@@ -16,21 +16,23 @@ paths below still exist before trusting them; if they don't, this skill is stale
 **Read `.github/copilot-instructions.md` in full, right now, before touching the `.csproj`,
 `Laerdal.targets`, or anything under `Jars/`.** It already documents the load-bearing build
 mechanics: the `.aar` is downloaded (not vendored) via a `BeforeTargets="Restore"` hook because
-`AndroidLibrary`/`AndroidJavaLibrary` items glob at MSBuild *evaluation* time; `Nordic_Package_
-Version` is the single source of truth CI reads via `sed`; `TargetPlatformVersion` is
-deliberately left floating (a past hardcoded value silently broke NuGet asset resolution for
-every consumer, with no build warning); and why `Xamarin.AndroidX.LocalBroadcastManager` is
-pinned. Everything below this point only adds what that file doesn't cover.
+`AndroidLibrary`/`AndroidJavaLibrary` items glob at MSBuild *evaluation* time; `Nordic_Package_Version`
+is the single source of truth CI reads via `sed`; `TargetPlatformVersion` is deliberately left
+floating (a past hardcoded value silently broke NuGet asset resolution for every consumer, with
+no build warning); and why `Xamarin.AndroidX.LocalBroadcastManager` is pinned. Everything below
+this point only adds what that file doesn't cover.
 
 ## What's not written down in this repo alone — cross-repo Nordic version bumps
 
-Bumping the wrapped Nordic native DFU library version is a **3-repo coordinated change**, not
-a single-repo one, and no single repo's docs say so:
-- This repo's `Nordic_Package_Version` (Android `.aar`).
-- `Laerdal.Dfu.Bindings.iOS`'s equivalent native version pin (its own `Laerdal.targets`).
-- `Laerdal.Dfu`'s `NordicDfuUuids` (Legacy/Secure DFU GATT constants) needs re-verifying
-  against the new native version before republishing — a GATT UUID or attribute layout change
-  upstream wouldn't be caught by either binding repo's own build.
+`Laerdal.Dfu.Bindings.Android` and `Laerdal.Dfu.Bindings.iOS` wrap **independently-versioned**
+native libraries (`Android-DFU-Library` vs `IOS-Pods-DFU-Library`) — bumping this repo's Nordic
+version does **not** imply bumping the iOS binding too. What *does* need re-checking whenever
+either platform's native library moves is `Laerdal.Dfu`'s `NordicDfuUuids` (Legacy/Secure DFU
+GATT constants) — re-verify it against the new native version before republishing, since
+neither binding repo's own build would catch a drift there.
 
-Bump all three together and re-validate against real hardware before publishing any of them
-individually.
+- This repo's own version pin: `Nordic_Package_Version`, defined once in
+  `Laerdal.Dfu.Bindings.Android.csproj`.
+- `Laerdal.Dfu.Bindings.iOS`'s equivalent pin is defined in **both**
+  `Laerdal.Scripts/Laerdal.targets` and `Laerdal.Scripts/Laerdal.Builder.targets` there —
+  letting those two drift apart breaks that repo's release step silently.
