@@ -10,50 +10,44 @@ Explain the reason for this change.
 
 - [ ] Feature
 - [ ] Bug fix
-- [ ] Refactor (`refa`)
+- [ ] Refactor
 - [ ] Docs only
 - [ ] CI/build/tooling
 
 ## Affected Areas
 
-- [ ] Bindings (`Laerdal.Dfu.Bindings.Android.csproj` / `Laerdal.targets`)
-- [ ] Native library version bump (Nordic `dfu-*.aar` / Gson `.jar`)
-- [ ] Metadata transforms (`Transforms/*.xml`)
-- [ ] CI/release pipeline
+- [ ] Native binding (`Laerdal.Dfu.Bindings.Android.csproj`)
+- [ ] Shared build config (`Laerdal.targets`)
+- [ ] Central package management (`Directory.Packages.props`)
+- [ ] Nordic DFU `.aar` version bump
+- [ ] Gson dependency handling
+- [ ] Transforms (`Transforms/`)
 - [ ] Documentation
 
 ## Behavior And Compatibility
 
-- [ ] Bound public API changed
-- [ ] Wrapped Nordic library version changed
+- [ ] Public API changed
+- [ ] Native library version bumped (Nordic DFU / Gson)
 - [ ] No externally visible behavior change
 
 If any box above is checked, describe impact:
 
 ## Tests
 
-- [ ] Manual validation performed (against real hardware where applicable)
+- [ ] Manual validation performed (against real hardware/emulator)
 - [ ] Not applicable (explain)
 
 Validation notes:
 
 ## Documentation
 
-- [ ] Docs updated in same PR
+- [ ] README "Known issues" / version notes updated
 - [ ] Not applicable (explain)
-
-## Risks And Follow-ups
-
-Risk level:
-- [ ] Low
-- [ ] Medium
-- [ ] High
-
-Known limitations or deferred follow-ups:
--
 
 ## Checklist
 
 - [ ] Commit header follows `type(scope): short imperative` and is <= 72 chars
 - [ ] Commit type is one of: feat, fix, refa, perf, docs, ci, chore, test, build
 - [ ] Commit body is 1-2 factual sentences (what/why), no emojis, refs, or co-authors
+- [ ] CI passes
+- [ ] Change is scoped to one logical unit of work
